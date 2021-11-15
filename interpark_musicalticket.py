@@ -28,24 +28,32 @@ areas = []
 periods= [] 
 item_urls = []
 
-for n in range(1,3):
-    time.sleep(1)
+items = content.find_all("li", attrs={"data-sale": "1"})
+for item in items:
+    titles.append(item.find("div", attrs={"class":"itemName"}).get_text()) #뮤지컬 타이틀
+    tags.append(item.find("div", attrs={"class":"tags"}).get_text())#태그
+    areas.append(item.find("span", attrs={"class":"area"}).get_text())#지역
+    periods.append(item.find("span", attrs={"class":"period"}).get_text())#기간
+    item_urls.append(item.find("a").attrs['href']) # url
 
-    items = content.find_all("li", attrs={"data-sale": re.compile("1")})
-    for item in items:
-        titles.append(item.find("div", attrs={"class":"itemName"}).get_text()) #뮤지컬 타이틀
-        tags.append(item.find("div", attrs={"class":"tags"}).get_text())#태그
-        areas.append(item.find("span", attrs={"class":"area"}).get_text())#지역
-        periods.append(item.find("span", attrs={"class":"period"}).get_text())#기간
-        item_urls.append(item.find("a").attrs['href']) # url
+# for n in range(1,3):
+#     time.sleep(1)
+
+#     items = content.find_all("li", attrs={"data-sale": "1"})
+#     for item in items:
+#         titles.append(item.find("div", attrs={"class":"itemName"}).get_text()) #뮤지컬 타이틀
+#         tags.append(item.find("div", attrs={"class":"tags"}).get_text())#태그
+#         areas.append(item.find("span", attrs={"class":"area"}).get_text())#지역
+#         periods.append(item.find("span", attrs={"class":"period"}).get_text())#기간
+#         item_urls.append(item.find("a").attrs['href']) # url
     
-    page_bar = driver.find_elements_by_css_selector("div.pagination > span > *")
-
-    page_bar[2].click()
-    # if n%10 != 0:
-    #     page_bar[n%10+1].click()
-    # else:
-    #     page_bar[11].click()
+#     #페이지는 잘 넘어가는 거 확인
+#     page_bar = driver.find_elements_by_css_selector("div.pagination > span > *")
+#     page_bar[2].click()
+#     # if n%10 != 0:
+#     #     page_bar[n%10+1].click()
+#     # else:
+#     #     page_bar[11].click()
 
 driver.close()
 
@@ -54,7 +62,7 @@ dataframe = pd.DataFrame({'Title': titles, 'Tag': tags, 'Area': areas, 'Period':
 # clean DataFrame
 dataframe = dataframe.replace('\n', ' ', regex=True)
 
-print(dataframe[10:])
+print(dataframe)
 # # # export to excel
 # # df.to_csv('jekyll.csv')
 
