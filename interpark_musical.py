@@ -27,10 +27,10 @@ item_urls = []
 #뮤지컬 리스트 뽑기 눈물난다..
 musical_list = driver.find_element_by_xpath('//*[@class="categoryContent current"]/div[@class="ticketContent"]/div[@class="searchPanel"]')
 for p in musical_list.find_elements_by_tag_name('li'):
-    titles.append(p.find_element_by_class_name('itemName').text) #뮤지컬 제목
+    musical_title = titles.append(p.find_element_by_class_name('itemName').text) #뮤지컬 제목
     areas.append(p.find_element_by_class_name('area').text)
     periods.append(p.find_element_by_class_name('period').text)
-    item_urls.append(p.get_attribute('href'))
+    item_urls.append(p.find("a").attrs['href']) # url
 
 
 #종료하기
