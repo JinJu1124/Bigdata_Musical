@@ -21,7 +21,6 @@ time.sleep(2)
 content= BeautifulSoup(driver.page_source, 'html.parser')
 
 titles = []
-tags = []
 areas = []
 periods= [] 
 item_urls = []
