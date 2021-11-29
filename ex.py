@@ -31,9 +31,9 @@ for url in urls:
 
     
     #제목
-
-
-    print(driver.find_element_by_css_selector('#productSide > div > div.sideBtnWrap > a.sideBtn.is-primary > span').text)
+    book = driver.find_element_by_css_selector('#productSide > div > div.sideBtnWrap > a.sideBtn.is-primary > span').text
+    done = driver.find_element_by_css_selector('#productSide > div > div.sideMain > div > div > div > div > strong').text
+    print()
 
     #장소
 

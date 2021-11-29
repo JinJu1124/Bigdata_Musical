@@ -31,12 +31,9 @@ musical_status = []
 
 
 # url 리스트 돌며 페이지 열기(sample 10개)
-i = 0
+# i = 0
 for url in urls:
-    i = i+1  # 브레이크용도
-
-    # 해당 url 리스트에 저장하기
-    URLs.append(url)
+    # i = i+1  # 브레이크용도
     try:
         # url 열기
         driver.get(url)
@@ -51,6 +48,7 @@ for url in urls:
         try:
             status = driver.find_element_by_css_selector('#productSide > div > div.sideMain > div > div > div > div > strong').text
             if status == '판매취소':
+                URLs.append(None)
                 musical_status.append(status)
                 musical_times.append(None)
                 ages.append(None)
@@ -68,7 +66,9 @@ for url in urls:
 
         except:
             musical_status.append('판매예정/판매중/판매종료')
-            
+            # 해당 url 리스트에 저장하기
+            URLs.append(url)
+
             # 장소
             try:
                 places.append(driver.find_element_by_css_selector(
@@ -150,8 +150,8 @@ for url in urls:
         print('주의! 페이지가 유효하지 않습니다.')
     
     # url sample을 위한 브레이크
-    if i == 10:
-        break
+    # if i == 10:
+    #     break
 # print(titles, places, musical_times, ages, periods, ticketCast, like_sex_m, like_sex_w, like_age_1, like_age_2, like_age_3, like_age_4, like_age_5, URLs)
 df = pd.DataFrame({'Title': titles, 'Place': places, 'Time': musical_times, 'Age': ages, 'Period': periods,
                    'TicketCast': ticketCast, 'Like_man': like_sex_m, 'Like_woman': like_sex_w,
