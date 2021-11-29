@@ -10,8 +10,8 @@ driver = webdriver.Chrome(
 driver.maximize_window()
 
 # 홈페이지 열기 interpark 뮤지컬 티켓 부분
-url = "https://tickets.interpark.com/search?keyword=%EB%AE%A4%EC%A7%80%EC%BB%AC"
-driver.get(url)
+url_get = "https://tickets.interpark.com/search?keyword=%EB%AE%A4%EC%A7%80%EC%BB%AC"
+driver.get(url_get)
 time.sleep(3)
 
 
@@ -32,10 +32,10 @@ areas = []
 places = []
 periods = []
 itme_urls = []
-# musical_poster = []
+musical_posters = []
 
 
-for n in range(1, 500):
+for n in range(1, 2):
     # 뮤지컬 리스트 뽑기 눈물난다..
 
     musical_list = driver.find_element_by_xpath(
@@ -55,13 +55,13 @@ for n in range(1, 500):
         try:
             areas.append(p.find_element_by_class_name('area').text)
         except:
-            areas.append(None)
+            areas.append("NA")
 
         # 기간
         try:
             periods.append(p.find_element_by_class_name('period').text)
         except:
-            periods.append(None)  # 기간
+            periods.append("NA")  # 기간
 
         # 공연 시간
         try:
@@ -69,7 +69,7 @@ for n in range(1, 500):
                 'div.itemInfo > div > span.time').text
             musical_times.append(musical_time)
         except:
-            musical_times.append(None)
+            musical_times.append("NA")
 
         # 연령가
         try:
@@ -77,7 +77,7 @@ for n in range(1, 500):
                 'div.itemInfo > div > span.visible').text
             ages.append(age)
         except:
-            ages.append(None)
+            ages.append("NA")
 
         # 출연진
         try:
@@ -85,14 +85,14 @@ for n in range(1, 500):
                 'div.itemInfo > div.castWrap.castDate > span.content').text
             actors.append(actor)
         except:
-            actors.append(None)
+            actors.append("NA")
 
         # tag 
         try:
             tag = p.find_element_by_css_selector('div.tags').text
             tags.append(tag)
         except:
-            print('error')
+            tags.append("NA")
 
         # 장소
         try:
@@ -100,9 +100,15 @@ for n in range(1, 500):
                 'div.col.info > span.concertHall').text
             places.append(place)
         except:
-            places.append(None)
+            places.append("NA")
         
+        #url
         itme_urls.append(item_name.find_element_by_css_selector('a').get_attribute('href')) #url
+
+        #muscial_poster
+        muscial_poster = p.find_element_by_css_selector('div.col.photo > a > span > img')
+        musical_posters.append(muscial_poster.get_attribute("src"))
+
 
 # 페이지 넘기기
     page_bar = driver.find_elements_by_css_selector("span.pageNumber > *")
@@ -117,7 +123,8 @@ for n in range(1, 500):
 
 
 df = pd.DataFrame({'Title': titles, 'Genre': genres, 'Time': musical_times, 'Age': ages,
-                  'Actor': actors, 'Area': areas, 'Place': places, 'Period': periods, 'Tag': tags, 'URL':itme_urls})
+                  'Actor': actors, 'Area': areas, 'Place': places, 'Period': periods, 'Tag': tags, 'URL':itme_urls, 'Musical_poster':musical_posters})
+
 df = df.replace('\n', ' ', regex=True)
 
 df.to_csv('musical_data.csv')
