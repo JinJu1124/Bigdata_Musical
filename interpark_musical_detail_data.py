@@ -19,6 +19,7 @@ ages = []
 places = []
 periods = []
 URLs = []
+genre = []
 like_sex_m = []
 like_sex_w = []
 like_age_1 = []
@@ -49,7 +50,8 @@ for url in urls:
             if status == '판매취소':
                 title = driver.find_element_by_css_selector(
                     'div.productMainTop > div > div.summaryTop > h2').text
-                musical_status.append(status)
+                musical_status.append(status) 
+                genre.append(driver.find_element_by_css_selector('#container > div.contents > div.productWrapper > div.productMain > div.productMainTop > div > div.summaryTop > div.tag > div.tagText > span').text)
                 musical_times.append("NA")
                 ages.append("NA")
                 places.append("NA")
@@ -70,7 +72,7 @@ for url in urls:
                 title = driver.find_element_by_css_selector(
                     'div.productMainTop > div > div.summaryTop > h2').text
                 titles.append(title)
-
+                genre.append(driver.find_element_by_css_selector('#container > div.contents > div.productWrapper > div.productMain > div.productMainTop > div > div.summaryTop > div.tag > div.tagText > span').text)
                 URLs.append(url)
 
                 # status
@@ -155,7 +157,7 @@ for url in urls:
             title = driver.find_element_by_css_selector(
                 'div.productMainTop > div > div.summaryTop > h2').text
             titles.append(title)
-
+            genre.append(driver.find_element_by_css_selector('#container > div.contents > div.productWrapper > div.productMain > div.productMainTop > div > div.summaryTop > div.tag > div.tagText > span').text)
             URLs.append(url)
 
             # status
@@ -244,7 +246,7 @@ for url in urls:
     # if i == 10:
     #     break
 
-df = pd.DataFrame({'Title': titles, 'Place': places, 'Time': musical_times, 'Age': ages, 'Period': periods,
+df = pd.DataFrame({'Title': titles, 'Genre' : genre, 'Place': places, 'Time': musical_times, 'Age': ages, 'Period': periods,
                    'TicketCast': ticketCast, 'Like_man': like_sex_m, 'Like_woman': like_sex_w,
                    'Like_age_10': like_age_1, 'Like_age_20': like_age_2, 'Like_age_30': like_age_3, 'Like_age_40': like_age_4, 'Like_age_50': like_age_5, 'URL': URLs,
                    'Status': musical_status})
