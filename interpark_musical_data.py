@@ -35,7 +35,8 @@ itme_urls = []
 musical_posters = []
 
 
-for n in range(1, 2):
+
+for n in range(1, 500):
     # 뮤지컬 리스트 뽑기 눈물난다..
 
     musical_list = driver.find_element_by_xpath(
@@ -106,8 +107,11 @@ for n in range(1, 2):
         itme_urls.append(item_name.find_element_by_css_selector('a').get_attribute('href')) #url
 
         #muscial_poster
-        muscial_poster = p.find_element_by_css_selector('div.col.photo > a > span > img')
-        musical_posters.append(muscial_poster.get_attribute("src"))
+        try:
+            muscial_poster = p.find_element_by_css_selector('div.col.photo > a > span > img')
+            musical_posters.append(muscial_poster.get_attribute("src"))
+        except:
+            musical_posters.append("NA")
 
 
 # 페이지 넘기기
