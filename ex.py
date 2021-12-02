@@ -1,140 +1,23 @@
-from selenium import webdriver
-import time
-import re
-from bs4 import BeautifulSoup
-import pandas as pd
+from urllib.parse import urlparse, parse_qsl, urlencode, urlunparse
 
 
-#chrome 드라이버 객체 실행시키기
-driver = webdriver.Chrome("/Users/dindoo/Documents/Bigdata_Musical/chromedriver")
-driver.maximize_window()
+url = 'http://mticket.interpark.com/Goods/GoodsInfo/info?GoodsCode=18011275&app_tapbar_state=fix#GoodsTabArea'
+parts = urlparse('http://mticket.interpark.com/Goods/GoodsInfo/info?GoodsCode=18011275&app_tapbar_state=fix#GoodsTabArea')
 
-data = pd.read_csv(r"musical_url.csv")	#CSV 파일 불러오기 
-urls = data['URL'].values.tolist() #리스트에 값
-
-#url 리스트 돌며 페이지 열기(sample 10개)
-i=0
-URL =[]
-title = []
-
-for url in urls:
-    i = i+1 #브레이크용도
-    
-    #해당 url 리스트에 저장하기
-    URL.append(url)
-
-    #url 열기
-    driver.get('https://tickets.interpark.com/goods/21008252')
-    
-    #쉬기
-    time.sleep(3)
-
-    
-    #제목
-    book = driver.find_element_by_css_selector('#productSide > div > div.sideBtnWrap > a.sideBtn.is-primary > span').text
-    done = driver.find_element_by_css_selector('#productSide > div > div.sideMain > div > div > div > div > strong').text
-    print()
-
-    #장소
-
-    #공연 시간
-
-    #관람 연령
-
-    #선호 성별
-
-    #선호 연령
-
-    
-
-    #url sample을 위한 브레이크
-    if i == 1:
-        break
+print(parts)
+# # 요소 분리
+# qs = dict(parse_qsl(parts.netloc))
+# # parse_qsl의 결과를 dictionary로 캐스팅
+# qs['netloc'] = ''
+# # 수정 작업
+# parts = parts._replace(query=urlencode(qs))
+# # dictionary로 되어 있는 query string을 urlencode에 넘겨 문자열화하고 replace
+# new_url = urlunparse(parts)
+# # urlunparse해서 새로운 URL 얻어내기
 
 
+# parts = parts._replace(netloc='mobileticket.interpark.com')
 
+# new_url = urlunparse(parts)
 
-# #티켓 카테고리로 넘어가기
-# driver.find_element_by_css_selector("#allContent > div.ticketContent > div.searchHeader > a").click()
-# time.sleep(2)
-
-# content= BeautifulSoup(driver.page_source, 'html.parser')
-
-# titles = [] #
-# genres = [] #
-# musical_times = [] #
-# ages = [] #
-# actors = [] #
-# tags = [] #
-# areas = [] #
-# places = [] #
-# periods = [] #
-# musical_poster = [] 
-
-
-# page_bar = driver.find_elements_by_css_selector("span.pageNumber > *")
-
-
-    
-# musical_list = driver.find_element_by_xpath('//*[@class="categoryContent current"]/div[@class="ticketContent"]/div[@class="searchPanel"]')
-# for p in musical_list.find_elements_by_tag_name('li'):
-#     item_name = p.find_element_by_class_name('itemName') #itemName 요소     
-    
-#     #뮤지컬 제목
-#     titles.append(item_name.text)
-    
-#     #장르
-#     genre = p.find_element_by_css_selector('div.itemInfo > div > span.type').text
-#     genres.append(genre)  
-
-#     #지역 
-#     try:
-#         areas.append(p.find_element_by_class_name('area').text) 
-#     except:
-#         areas.append(None)
-    
-#     #기간
-#     try:
-#         periods.append(p.find_element_by_class_name('period').text) 
-#     except:
-#         periods.append(None) #기간  
-
-#     #공연 시간
-#     musical_time = p.find_element_by_css_selector('div.itemInfo > div > span.time').text
-#     musical_times.append(musical_time)
-
-#     #연령가
-#     age = p.find_element_by_css_selector('div.itemInfo > div > span.visible').text
-#     ages.append(age)
-
-#     #출연진
-#     try:
-#         actor = p.find_element_by_css_selector('div.itemInfo > div.castWrap.castDate > span.content').text
-#         actors.append(actor)
-#     except:
-#         actors.append(None)
-
-#     #tag 판매중 or 종료
-#     try:
-#         tag = p.find_element_by_css_selector('div.tags').text
-#         tags.append(tag)
-#     except:
-#         tag = "판매 종료"
-#         tags.append(tag)
-
-#     #장소
-#     try:
-#         place = p.find_element_by_css_selector('div.col.info > span.concertHall').text
-#         places.append(place)
-#     except:
-#         places.append(None)
-
-
-
-# df = pd.DataFrame({'Title':titles, 'Genre':genres, 'Time':musical_times, 'Age':ages, 'Actor':actors, 'Area': areas, 'Place':places, 'Period': periods, 'Tag':tags})
-# df = df.replace('\n', ' ', regex=True)
-# print(df)
-
-# # #종료하기
-# driver.close()
-# driver.quit()
+# print(new_url)

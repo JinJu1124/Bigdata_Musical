@@ -29,7 +29,6 @@ page_bar = driver.find_elements_by_css_selector("span.pageNumber > *")
 
 for n in range(1, 500):
     #뮤지컬 리스트 뽑기 눈물난다..
-    
     musical_list = driver.find_element_by_xpath('//*[@class="categoryContent current"]/div[@class="ticketContent"]/div[@class="searchPanel"]')
     for p in musical_list.find_elements_by_tag_name('li'):
         item_name = p.find_element_by_class_name('itemName') #itemName 요소     
@@ -37,11 +36,11 @@ for n in range(1, 500):
         try:
             areas.append(p.find_element_by_class_name('area').text) #지역
         except:
-            areas.append(None)
+            areas.append("NA")
         try:
             periods.append(p.find_element_by_class_name('period').text) #기간
         except:
-            periods.append(None) #기간
+            periods.append("NA") #기간
         item_urls.append(item_name.find_element_by_css_selector('a').get_attribute('href')) #url
             
 
